@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "id": 201,
+      "fname": "Jacob Hobbs",
+      "email": "jacob@mail.com",
+      "password": "jacob",
+      "pin": 1111,
+      "walletBalance": 85500
+    },
+    {
+      "id": 202,
+      "fname": "Richard Benson",
+      "email": "ben@mail.com",
+      "password": "richard",
+      "pin": 2222,
+      "walletBalance": 63494
+    },
+    {
+      "id": 275,
+      "fname": "Jessy jerry",
+      "email": "jessy@mail.com",
+      "password": "jessy",
+      "pin": 2013,
+      "walletBalance": 113700
+    },
+    {
+      "id": 277,
+      "fname": "Steve Willy",
+      "email": "steve@mail.com",
+      "password": "steve",
+      "pin": 2222,
+      "walletBalance": 80850
+    },
+    {
+      "id": 299,
+      "fname": "Esther Wise",
+      "email": "esther@mail.com",
+      "password": "esther",
+      "pin": 2015,
+      "walletBalance": 143000
+    }
+  ]
+}
