@@ -6,7 +6,7 @@
       "email": "jacob@mail.com",
       "password": "jacob",
       "pin": 1111,
-      "walletBalance": 85500
+      "walletBalance": 81130
     },
     {
       "id": 202,
@@ -14,15 +14,15 @@
       "email": "ben@mail.com",
       "password": "richard",
       "pin": 2222,
-      "walletBalance": 63494
+      "walletBalance": 153357
     },
     {
       "id": 275,
-      "fname": "Jessy jerry",
+      "fname": "Jessy Jerry",
       "email": "jessy@mail.com",
       "password": "jessy",
       "pin": 2013,
-      "walletBalance": 113700
+      "walletBalance": 95593
     },
     {
       "id": 277,
@@ -30,7 +30,7 @@
       "email": "steve@mail.com",
       "password": "steve",
       "pin": 2222,
-      "walletBalance": 80850
+      "walletBalance": 81109
     },
     {
       "id": 299,
@@ -38,7 +38,7 @@
       "email": "esther@mail.com",
       "password": "esther",
       "pin": 2015,
-      "walletBalance": 143000
+      "walletBalance": 141900
     }
   ]
 }

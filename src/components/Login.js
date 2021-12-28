@@ -1,53 +1,39 @@
-import React from 'react'
-import { useState, useEffect, useParams } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
 
-const Login = ({
-  id,
-  setId,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  users,
-  setUsers,
-}) => {
-  // const { id } = useParams()
-  // const [users, setUsers] = useState([])
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  // const [id, setId] = useState('')
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import DataContext from '../context/DataContext';
 
-  const navigate = useNavigate()
+const Login = () => {
+  const { id, setId, email, setEmail, password, setPassword, setUsers } =
+    useContext(DataContext);
+
+  const navigate = useNavigate();
 
   const fetchUser = async () => {
-    let theId = id
+    let theId = id;
     try {
-      const response = await axios.get(`http://localhost:4500/users/${theId}`)
-      console.log(response)
+      const response = await axios.get(`http://localhost:4500/users/${theId}`);
+      console.log(response);
 
-      console.log(response.data)
+      console.log(response.data);
 
       if (response.status === 200) {
-        setUsers(response.data)
-        navigate('/wallet')
+        setUsers(response.data);
+        navigate('/wallet');
       } else {
-        throw Error('user not found')
+        throw Error('user not found');
       }
     } catch (err) {
-      alert(`Error user not found`)
+      alert(`Error user not found`);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    fetchUser()
-  }
-
-  function aprox(num) {
-    return num.slice(2)
-  }
+    e.preventDefault();
+    fetchUser();
+  };
 
   return (
     <>
@@ -103,7 +89,7 @@ const Login = ({
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

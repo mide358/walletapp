@@ -1,82 +1,77 @@
-import React from 'react'
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
 
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import DataContext from '../context/DataContext';
 
-const Wallet = ({
-  users,
-  setUsers,
-  email,
-  password,
-  receiver,
-  setReceiver,
-  amount,
-  setAmount,
-}) => {
-  const [allUsers, setAllUsers] = useState([])
-  const [userInfo, setUserInfo] = useState('')
-  // const [receiver, setReceiver] = useState('')
+import Tooltip from './Tooltip';
 
-  const navigate = useNavigate()
-  console.log(users.id)
+const Wallet = () => {
+  const {
+    users,
+    setUsers,
+    receiver,
+    setReceiver,
+    amount,
+    setAmount,
+    userInfo,
+    setUserInfo,
+    allUsers,
+    setAllUsers,
+  } = useContext(DataContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUser()
-  }, [])
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4500/users`);
 
-  const fetchUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4500/users`)
-      console.log(response.data)
-      let res = response.data
-      setAllUsers(res)
-      // setAllUsers(res.filter((list) => list.id !== users.id))
-      console.log(allUsers)
-    } catch (err) {
-      if (err.response) {
-        // Not in the 200 response range
-        console.log(err.response.data)
-        console.log(err.response.status)
-        console.log(err.response.headers)
-      } else {
-        console.log(`Error: ${err.message}`)
+        let res = response.data;
+        setAllUsers(res);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
       }
-    }
-  }
+    };
+    fetchUser();
+  }, []);
 
   const fetchReceiver = async () => {
-    let theId = userInfo
+    let theId = userInfo;
     try {
-      const response = await axios.get(`http://localhost:4500/users/${theId}`)
-      console.log(response.data)
-      setReceiver(response.data)
+      const response = await axios.get(`http://localhost:4500/users/${theId}`);
+
+      setReceiver(response.data);
     } catch (err) {
       if (err.response) {
         // Not in the 200 response range
-        console.log(err.response.data)
-        console.log(err.response.status)
-        console.log(err.response.headers)
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
       } else {
-        console.log(`Error: ${err.message}`)
+        console.log(`Error: ${err.message}`);
       }
     }
-  }
+  };
 
   const goToTransfer = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    let senderId = users.id
-    let receiverId = userInfo
-    console.log(senderId)
-    console.log(receiverId)
+    let senderId = users.id;
+    let receiverId = userInfo;
 
-    let debit = users.walletBalance - amount
-    let credit = Number(receiver.walletBalance) + Number(amount)
-    const senderBal = { walletBalance: debit }
-    const receiverBal = { walletBalance: credit }
-    console.log(debit)
-    console.log(credit)
+    let debit = users.walletBalance - amount;
+    let credit = Number(receiver.walletBalance) + Number(amount);
+    const senderBal = { walletBalance: debit };
+    const receiverBal = { walletBalance: credit };
 
     await axios
       .all(
@@ -94,80 +89,107 @@ const Wallet = ({
       )
       .then(
         axios.spread((response1, response2, response3) => {
-          const responseOne = response1.data
-          const responseTwo = response2.data
-          const responseThree = response3.data
+          const responseOne = response1.data;
+          const responseTwo = response2.data;
+          const responseThree = response3.data;
 
-          console.log(responseOne, responseTwo)
-          console.log(responseThree)
+          setUsers(responseOne);
 
-          setUsers(responseOne)
+          setUserInfo(responseTwo);
 
-          setUserInfo(responseTwo)
-          setAllUsers(responseThree)
+          navigate('/transfer');
         })
       )
       .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  console.log(amount)
+        console.log(error);
+      });
+  };
 
   let handleUser = (e) => {
-    console.log(users)
-    console.log(allUsers)
+    fetchReceiver();
+  };
 
-    console.log(Number(userInfo))
-    fetchReceiver()
+  // function to format the number
+  function numFormatter(num) {
+    if (num > 999 && num < 1000000) {
+      return '$' + (num / 1000).toFixed(1) + 'K'; // convert to K for number from > 1000 < 1 million
+    } else if (num > 1000000) {
+      return '$' + (num / 1000000).toFixed(1) + 'M'; // convert to M for number from > 1 million
+    } else if (num < 900) {
+      return '$' + num; // if value < 1000, nothing to do
+    }
+  }
+
+  function addCur(num) {
+    return '$' + num;
   }
 
   return (
     <main className="wallet">
       <div className="owner">
-        <h4>Welcome to your Wallet {users.fname}</h4>
-        {users && (
-          <>
-            {/* <p>name:{users.fname}</p> */}
-            <p>Balance:{users.walletBalance}</p>
-          </>
-        )}
+        <p>
+          Welcome to your Wallet <br />
+          <span> </span>
+        </p>
+        <div className="owner-name">
+          <p>{users.fname}</p>
+          {users && (
+            <p>
+              Balance:
+              {numFormatter(users.walletBalance)}
+            </p>
+          )}
+        </div>
+        <Tooltip
+          text={
+            users.walletBalance
+              ? addCur(users.walletBalance.toLocaleString('en-US'))
+              : ''
+          }
+        >
+          <button className="tool-btn"> Hover me!</button>
+        </Tooltip>
       </div>
       <br /> <br />
-      <select onChange={(e) => setUserInfo(e.target.value)}>
+      <select
+        className="select"
+        onChange={(e) => {
+          setUserInfo(e.target.value);
+        }}
+        onClick={handleUser}
+      >
         <option value="select user">Select User</option>
         {allUsers
           .filter((list) => list.id !== users.id)
           .map((list, i) => (
             <option key={i} value={list.id}>
-              {list.fname} {list.walletBalance}
+              {list.fname}
             </option>
           ))}
-        {/* {allUsers.map((trf, i) => (
-          <option key={i} value={trf.id}>
-            {trf.fname} {trf.walletBalance}
-          </option>
-        ))} */}
       </select>
-      <button onClick={handleUser}> check</button>
+      <br />
       <form onSubmit={goToTransfer}>
-        <h2>
-          {receiver.fname} {receiver.walletBalance}
-        </h2>
-        <label>
-          Enter Amount:
-          <input
-            type="text"
-            name="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </label>
-
-        <button type="submit">Proceed to Tranfer</button>
+        <h4>
+          Receiver: {receiver.fname}
+          {/* {receiver.walletBalance} */}
+        </h4>
+        <div className="amount">
+          <label>
+            <input
+              type="text"
+              name="amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Enter Amount"
+            />
+          </label>
+        </div>
+        <button type="submit">Transfer</button>
       </form>
     </main>
-  )
-}
+  );
+};
 
-export default Wallet
+export default Wallet;
+
+// onClick={() => setAmount(() => '')}

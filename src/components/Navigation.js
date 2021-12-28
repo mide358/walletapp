@@ -21,14 +21,14 @@ const Navigation = () => {
       <div className="btn">
         <button onClick={handleToggle}>
           {isOpen ? (
-            <MdClose style={{ color: '#000', width: '25px', height: '25px' }} />
+            <MdClose style={{ color: '#fff', width: '25px', height: '25px' }} />
           ) : (
-            <FiMenu style={{ color: '#000', width: '25px', height: '25px' }} />
+            <FiMenu style={{ color: '#fff', width: '25px', height: '25px' }} />
           )}
         </button>
         <ul className={`navList ${isOpen ? ' showMenu' : ''}`}>
           <li className="navItem" onClick={() => closeMenu()}>
-            <Link to="/login">Login</Link>
+            <Link to="/">Login</Link>
           </li>
 
           <li className="navItem" onClick={() => closeMenu()}>
