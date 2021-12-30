@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import Navigation from './Navigation';
 
 test('renders wallet link', () => {
-  render(<App />);
-  const linkElement = screen.queryByText('Wallet');
+  render(<Navigation />);
+  const linkElement = screen.queryByText('./Wallet');
   expect(linkElement).toBeInTheDocument();
 });
