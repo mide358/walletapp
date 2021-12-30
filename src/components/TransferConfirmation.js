@@ -7,7 +7,7 @@ import DataContext from '../context/DataContext';
 
 const TransferConfirmation = () => {
   const navigate = useNavigate();
-  const { receiver, amount } = useContext(DataContext);
+  const { receiver, amount, setAmount, setReceiver } = useContext(DataContext);
 
   function addCur(num) {
     return '$' + num;
@@ -31,7 +31,14 @@ const TransferConfirmation = () => {
           <p className="pay-name"> {receiver.fname}</p>
         </div>
 
-        <button className="done" onClick={() => navigate('/wallet')}>
+        <button
+          className="done"
+          onClick={() => {
+            navigate('/wallet');
+            setAmount(() => '');
+            setReceiver(() => '');
+          }}
+        >
           Done
         </button>
       </div>
