@@ -91,7 +91,7 @@ const Wallet = () => {
         axios.spread((response1, response2, response3) => {
           const responseOne = response1.data;
           const responseTwo = response2.data;
-          const responseThree = response3.data;
+          // const responseThree = response3.data;
 
           setUsers(responseOne);
 
@@ -134,13 +134,22 @@ const Wallet = () => {
         <div className="owner-name">
           <p>{users.fname}</p>
           {users && (
-            <p>
-              Balance:
-              {numFormatter(users.walletBalance)}
-            </p>
+            <Tooltip
+              text={
+                users.walletBalance
+                  ? addCur(users.walletBalance.toLocaleString('en-US'))
+                  : ''
+              }
+            >
+              <p className="balance">
+                Balance:
+                {numFormatter(users.walletBalance)} <br />
+                <small>Hover on balance to see full amount </small>
+              </p>
+            </Tooltip>
           )}
         </div>
-        <Tooltip
+        {/* <Tooltip
           text={
             users.walletBalance
               ? addCur(users.walletBalance.toLocaleString('en-US'))
@@ -148,7 +157,7 @@ const Wallet = () => {
           }
         >
           <button className="tool-btn"> Hover me!</button>
-        </Tooltip>
+        </Tooltip> */}
       </div>
       <br /> <br />
       <select

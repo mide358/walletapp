@@ -143,6 +143,16 @@ form {
 
 .tooltip-box.visible {
   display: block;
+  margin-bottom: 1.7rem;
+}
+.balance {
+  margin-top: 1.2rem;
+  cursor: pointer;
+}
+.balance small {
+  background-color: #b2b9b2;
+  font-weight: lighter;
+  font-size: x-small;
 }
 
 .tool-btn {
@@ -293,6 +303,10 @@ form button {
 
   .login_group input {
     padding: 0.5rem 3rem;
+  }
+  /* tooltip */
+  .tooltip-box.visible {
+    margin-bottom: 1.2rem;
   }
 
   /* footer */
